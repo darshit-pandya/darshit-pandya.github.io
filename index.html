@@ -1,1 +1,323 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Darshit Pandya</title>
+	<style type="text/css">
+		#container{
+			width: 100%;
+			height: 100%;
+		}
+		#main,#main1{
+			width: 75%;
+			height: 100%;
+			margin: 0 auto;
+  			background-image: url('bg.jpg');
+  			background-repeat: no-repeat;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+	<style type="text/css">
+		@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+body {
+  font-size: 26px;
+}
+
+a {
+  text-decoration: none;
+}
+
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+.share-links {
+  transform-style: preserve-3d;
+  width: 48px;
+  height: 88px;
+  line-height: 3em;
+  text-align: center;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  margin-left: -1.5em;
+  margin-top: -1.5em;
+  transform: rotateX(-35deg);
+}
+
+.share-links:after {
+  content: "\f141";
+  color: white;
+  font-family: 'FontAwesome', sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 9999;
+  transform: translate3d(0, -30px, 50px);
+  margin-left: -0.4em;
+  font-size: 1.5em;
+  transition: 200ms ease all;
+}
+
+.share-links:hover:after {
+  opacity: 0;
+  transform: translate3d(0, -100%, 50px);
+}
+
+.share-links > li {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.share-links > li a {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  color: white;
+  background: gray;
+  transition: 500ms ease all;
+}
+
+.share-links > li a span {
+  color: currentColor;
+  transition: 500ms ease all;
+}
+
+.share-links:hover > li a span {
+  color: #fff;
+}
+
+.share-links > li a:before,
+.share-links > li a:after {
+  transition: 500ms ease all;
+  background: currentColor;
+}
+
+.share-links > li a:before {
+  height: 0;
+  width: 100%;
+  box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+}
+
+.share-links > li a:after {
+  width: 0;
+  height: 100%;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+}
+
+.share-links:hover > li a:before {
+  height: 100%;
+}
+
+.share-links:hover > li a:after {
+  width: 100%;
+}
+
+.share-links > li.facebook {
+  top: 0;
+  right: 50%;
+  transform: rotateY(45deg);
+  transform-origin: 100% 0;
+}
+
+.share-links:hover > li.facebook a,
+.share-links:hover > li.facebook a:before,
+.share-links:hover > li.facebook a:after {
+  background-color: rgb(59, 89, 152);
+  color: white;
+}
+
+.share-links:hover > li.facebook a:hover,
+.share-links:hover > li.facebook a:hover:before,
+.share-links:hover > li.facebook a:hover:after {
+  background-color: rgb(71, 104, 173);
+  color: white;
+}
+.share-links > li.twitter {
+  top: 0;
+  left: 50%;
+  transform: rotateY(-45deg);
+  transform-origin: 0% 0%;
+}
+
+.share-links:hover > li.twitter a,
+.share-links:hover > li.twitter a:before,
+.share-links:hover > li.twitter a:after {
+  background-color: rgb(85, 172, 238);
+  color: white;
+}
+
+.share-links:hover > li.twitter a:hover,
+.share-links:hover > li.twitter a:hover:before,
+.share-links:hover > li.twitter a:hover:after {
+  background-color: rgb(98, 187, 255);
+  color: white;
+}
+
+.share-links > li.googleplus {
+  top: 100%;
+  right: 50%;
+  transform: rotateY(45deg) rotateX(90deg);
+  transform-origin: 100% 0%;
+}
+
+.share-links:hover > li.googleplus a,
+.share-links:hover > li.googleplus a:before,
+.share-links:hover > li.googleplus a:after {
+  background-color: rgb(211, 72, 54);
+  color: white;
+}
+
+.share-links:hover > li.googleplus a:hover,
+.share-links:hover > li.googleplus a:hover:before,
+.share-links:hover > li.googleplus a:hover:after {
+  background-color: rgb(239, 87, 68);
+  color: white;
+}
+
+.share-links > li.googleplus a:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  transform: rotateY(-90deg);
+  transform-origin: 100% 0;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+}
+
+.share-links > li.googleplus a:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: rotateX(-90deg);
+  transform-origin: 0% 0;
+  box-shadow: none
+}
+
+.share-links:hover > li.googleplus a {
+  box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.1);
+}
+
+.share-links > li.facebook a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateX(-90deg);
+  transform-origin: 0 0;
+}
+
+.share-links > li.facebook a:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  transform: rotateY(-90deg);
+  transform-origin: 100% 0;
+}
+
+.share-links > li.twitter a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: rotateX(-90deg);
+  transform-origin: 0 0;
+}
+
+.share-links > li.twitter a:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transform: rotateY(90deg);
+  transform-origin: 0% 0;
+  box-shadow: none;
+}
+
+.share-links:hover > li.twitter a {
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.1);
+}
+a:hover{
+	cursor: pointer;
+}
+img#i1:hover{
+	cursor: pointer;
+}
+
+</style>
+
+
+	
+</head>
+<body onload="set()" onresize="set()">
+<div id="container">
+	
+	<div id="main" style="z-index: 1;" class="animated">
+		<table height="100%" width="95%">
+			<tr style="height: 10%;">
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr style="height: 40%;">
+				<td style="width: 8%;"></td>
+				<td style="width: 30%;border: 3px double black;"><img src="pic.jpeg" width="100%" height="100%"></td>
+				<td style="vertical-align: top; border: 3px double black;">
+					<ul type="none">
+						<li><h1>Dashit Pandya</h1></li>
+						<li>B.Tech. Computer Engineering(2020)</li>
+						<li>Indus University, Ahmedabad</li>
+						<li>CGPA: 9.81</li>
+						<br>
+						<li>A software looking to gain knowledge in the span of Machine-Learning.</li>
+					</ul>	
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+		<ul class="share-links" type="none">
+  							<li class="facebook"><a onclick="openx('Resume.pdf')" id="a1" onmouseover="this.innerHTML='Resume';" onmouseout="this.innerHTML='';"><span></span></a></li>
+							<li class="twitter"><a onclick="openx('Contact.pdf')" onmouseover="this.innerHTML='Contact';" onmouseout="this.innerHTML='';"><span id="s2"></span></a></li>
+							<li class="googleplus"><a onclick="openx('Projects.pdf')" onmouseover="this.innerHTML='Projects';" onmouseout="this.innerHTML='';"><span id="s3"></span></a></li>
+						</ul>
+	</div>
+	<div id="main1" style="display: none; background-color: black; z-index: 2;" class="animated">
+		<img src="home.png" onclick="location.href='index.html';" height="50px" width="50px" style="left: 5%;top: 10%;position: absolute;" id="i1">
+		<object height="100%" width="100%" id="f" type="application/pdf"></object>
+	</div>
+
+</div>
+<script type="text/javascript">
+var src;
+function openx(src){
+	document.getElementById("f").data=src;
+	var element = document.getElementById("main");
+  	element.classList.add("fadeOutRight");
+  	setTimeout(function(){ document.getElementById("main").style.display="none";
+  	document.getElementById("main1").style.display="block";
+	var element = document.getElementById("main1");
+  	element.classList.add("fadeInLeft"); }, 400);
+	
+
+}
+function set(){
+	var w=window.innerWidth;
+	var h=window.innerHeight;
+	document.getElementById('container').style.width=w+"px";
+	document.getElementById('container').style.height=h+"px";
+}
+</script>
+</body>
+</html>
