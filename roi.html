@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1> EMI Calculator </h1>
+<br/>
+Total Fees: <input type="text" id="i"/> <br/> <br/>
+Principal-1: <input type="text" id="i1"/> <br/> <br/>
+Amount-1: <input type="text" id="i11"/> <br/> <br/>
+Amount-2: <input type="text" id="i111"/> <br/> <br/>
+R.O.I.: <input type="text" id="i2"/> % <br/> <br/>
+<button onclick="calculate()">Calculate</button> 
+<button onclick="rst()">Reset</button> <br/> <hr/> <br/>
+<div style="display:none;" id="dv1">
+EMI [1-6]  : <span id="s1"></span> (Val: &#x20B9;<span id="d1"></span>) <br/> 
+EMI [7-12] : <span id="s2"></span> (Val: &#x20B9;<span id="d2"></span>) <br/> 
+EMI [13-18]: <span id="s3"></span> (Val: &#x20B9;<span id="d3"></span>) <br/> 
+EMI [18-*] : <span id="s4"></span> <br/>
+Total Interest Paid: <span id="s5"></span> (for 2 Years.) <br/>
+Total Amount Paid: &#x20B9;<span id="s6"></span> (Excluding Loan) + &#x20B9;<span id="s7"></span> (Interest) = &#x20B9;<span id="s8"></span> (At the end of 2 Years.)
+</div>
+<script type="text/javascript">
+function calculate(){
+	var t= parseInt(document.getElementById("i").value);
+	var p= parseInt(document.getElementById("i1").value);
+	var p1= parseInt(document.getElementById("i11").value);
+	var p2= parseInt(document.getElementById("i111").value);
+	var p3=p-p1-p2;
+	var r = parseFloat(document.getElementById("i2").value);
+	var temp;
+	var emi = 0; 
+	var val;
+	var tamt = 0; 
+	temp = p1 * r * 31 / 36500; 
+   	emi = emi + temp; 
+    val = emi * 6; 
+    tamt = tamt + val; 
+    document.getElementById("s1").innerHTML= emi.toFixed(2);
+    console.log(p1);
+    document.getElementById("d1").innerHTML=val.toFixed(2);
+    val=0; 
+    temp = p2 * r * 31 / 36500; 
+   	emi = emi + temp; 
+    val = emi * 6; 
+    tamt = tamt + val; 
+    document.getElementById("s2").innerHTML=emi.toFixed(2);
+    document.getElementById("d2").innerHTML=val.toFixed(2);
+    val=0; 
+    temp = p3 * r * 31 / 36500; 
+   	emi = emi + temp; 
+    val = emi * 6; 
+    tamt = tamt + val; 
+    document.getElementById("s3").innerHTML=emi.toFixed(2);
+    document.getElementById("d3").innerHTML=val.toFixed(2);
+
+    document.getElementById("s4").innerHTML=emi.toFixed(2);
+ 
+ 	tamt = tamt + val; 
+ 	document.getElementById("s5").innerHTML=val.toFixed(2);
+
+ 	document.getElementById("s6").innerHTML=(t-p1-p2-p3).toFixed(2);
+ 	document.getElementById("s7").innerHTML=val.toFixed(2);
+ 	document.getElementById("s8").innerHTML=(t-p1-p2-p3 + val).toFixed(2);
+
+ 	document.getElementById("dv1").style.display = "block";
+} 
+
+function rst(){
+	document.getElementById("dv1").style.display="none";
+	document.getElementById("i1").value="";
+	document.getElementById("i11").value="";
+	document.getElementById("i111").value="";
+	document.getElementById("i").value="";
+	document.getElementById("i2").value="";
+}
+</script>
+</body>
+</html>
