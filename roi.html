@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1> EMI Calculator </h1>
+<h1> pre-EMI Calculator </h1>
 <br/>
 Total Fees: <input type="text" id="i"/> <br/> <br/>
 Principal-1: <input type="text" id="i1"/> <br/> <br/>
@@ -11,10 +11,10 @@ R.O.I.: <input type="text" id="i2"/> % <br/> <br/>
 <button onclick="calculate()">Calculate</button> 
 <button onclick="rst()">Reset</button> <br/> <hr/> <br/>
 <div style="display:none;" id="dv1">
-EMI [1-6]  : <span id="s1"></span> (Val: &#x20B9;<span id="d1"></span>) <br/> 
-EMI [7-12] : <span id="s2"></span> (Val: &#x20B9;<span id="d2"></span>) <br/> 
-EMI [13-18]: <span id="s3"></span> (Val: &#x20B9;<span id="d3"></span>) <br/> 
-EMI [18-*] : <span id="s4"></span> <br/>
+pre-EMI [1-6]  : <span id="s1"></span> (Val: &#x20B9;<span id="d1"></span>) <br/> 
+pre-EMI [7-12] : <span id="s2"></span> (Val: &#x20B9;<span id="d2"></span>) <br/> 
+pre-EMI [13-18]: <span id="s3"></span> (Val: &#x20B9;<span id="d3"></span>) <br/> 
+pre-EMI [18-*] : <span id="s4"></span> <br/>
 Total Interest Paid: <span id="s5"></span> (for 2 Years.) <br/>
 Total Amount Paid: &#x20B9;<span id="s6"></span> (Excluding Loan) + &#x20B9;<span id="s7"></span> (Interest) = &#x20B9;<span id="s8"></span> (At the end of 2 Years.)
 </div>
@@ -55,7 +55,7 @@ function calculate(){
     document.getElementById("s4").innerHTML=emi.toFixed(2);
  
  	tamt = tamt + val; 
- 	document.getElementById("s5").innerHTML=val.toFixed(2);
+ 	document.getElementById("s5").innerHTML=tamt.toFixed(2);
 
  	document.getElementById("s6").innerHTML=(t-p1-p2-p3).toFixed(2);
  	document.getElementById("s7").innerHTML=val.toFixed(2);
