@@ -109,13 +109,26 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
   }
-  </style>
-	
-  <!-- Start Bootstrap Carousel HEAD section -->
-<link rel="stylesheet" type="text/css" href="engine1/style.css" />
-<script type="text/javascript" src="engine1/jquery.js"></script>
-<!-- End Bootstrap Carousel HEAD section -->
+	  
+  /*<!-- Custom styles for this template -->*/
+  #slideshow {
+  margin: 80px auto;
+  position: relative;
+  width: 240px;
+  height: 240px;
+  padding: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
 
+#slideshow > div {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+}
+  
+  </style>
 </head>
 
 <body id="page-top" class="noselect">
@@ -526,21 +539,17 @@ Technology(s): HTML - CSS - JavaScript - Php - MongoDB - MySQL</p>
         <div class="w-100">
           <h2 class="mb-5"><span class="mytitle">Gallery</span></h2>
 	<!-- Start Bootstrap Carousel BODY section -->
-	<div id="wowslider-container1">
-	<div class="ws_images"><ul>
-			<li><img src="data1/images/lake.jpg" alt="Lake" title="Lake" id="wows1_0"/></li>
-			<li><img src="data1/images/landscape.jpg" alt="Landscape" title="Landscape" id="wows1_1"/></li>
-			<li><img src="data1/images/sunset.jpg" alt="Sunset" title="Sunset" id="wows1_2"/></li>
-		</ul></div>
-		<div class="ws_bullets"><div>
-			<a href="#" title="Lake"><span><img src="data1/tooltips/lake.jpg" alt="Lake"/>1</span></a>
-			<a href="#" title="Landscape"><span><img src="data1/tooltips/landscape.jpg" alt="Landscape"/>2</span></a>
-			<a href="#" title="Sunset"><span><img src="data1/tooltips/sunset.jpg" alt="Sunset"/>3</span></a>
-		</div></div>
-	<div class="ws_shadow"></div>
-	</div>	
-	<script type="text/javascript" src="engine1/wowslider.js"></script>
-	<script type="text/javascript" src="engine1/script.js"></script>
+	<div id="slideshow">
+   <div>
+     <img src="http://farm6.static.flickr.com/5224/5658667829_2bb7d42a9c_m.jpg">
+   </div>
+   <div>
+     <img src="http://farm6.static.flickr.com/5230/5638093881_a791e4f819_m.jpg">
+   </div>
+   <div>
+     Pretty cool eh? This slide is proof the content can be anything.
+   </div>
+</div>
 	<!-- End Bootstrap Carousel BODY section -->
           </div>
 </div>
@@ -623,6 +632,20 @@ Technology(s): HTML - CSS - JavaScript - Php - MongoDB - MySQL</p>
 
   <!-- Custom scripts for this template -->
   <script src="js/resume.min.js"></script>
+	     
+  <!-- Slider -->
+  <script type="text/javascript">
+  $("#slideshow > div:gt(0)").hide();
+
+setInterval(function() {
+  $('#slideshow > div:first')
+    .fadeOut(1000)
+    .next()
+    .fadeIn(1000)
+    .end()
+    .appendTo('#slideshow');
+}, 3000);
+  </script>
 
 </body>
 
