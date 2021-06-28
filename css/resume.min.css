@@ -167,7 +167,9 @@ section.resume-section .resume-item .resume-date {
 }
 
 .text-primary {
-	color: #05a1e8!important;
+	color: #fff!important;
+	-webkit-text-stroke-width: 5px;
+        -webkit-text-stroke-color: black;
 }
 
 a {
