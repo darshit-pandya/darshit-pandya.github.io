@@ -59,6 +59,7 @@ p.lead {
 	font-size: 1.5rem;
 	line-height: 3.5rem;
 	margin-right: 1rem;
+	border: 1px solid #000000;
 }
 
 .social-icons a:last-child {
@@ -68,7 +69,6 @@ p.lead {
 .social-icons a:hover {
 	background-color: #fff;
 	color: #000000;
-	border: 1px solid #000000;
 }
 
 .dev-icons {
