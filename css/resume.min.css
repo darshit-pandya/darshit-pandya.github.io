@@ -52,8 +52,8 @@ p.lead {
 	display: inline-block;
 	height: 3.5rem;
 	width: 3.5rem;
-	background-color: #fff;
-	color: #000000!important;
+	background-color: #000000;
+	color: #fff!important;
 	border-radius: 100%;
 	text-align: center;
 	font-size: 1.5rem;
@@ -68,6 +68,7 @@ p.lead {
 .social-icons a:hover {
 	background-color: #fff;
 	color: #000000;
+	border: 1px solid #000000;
 }
 
 .dev-icons {
