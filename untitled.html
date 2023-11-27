@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Confirmed Cases Per Country</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style type="text/css">
+      .tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: none;
+  font-size: 12px;
+}
+
+.tooltip div {
+  margin-bottom: 5px;
+}
+
+.tooltip span {
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+
+  <svg id="map" width="800" height="400"></svg>
+<div id="tooltip" style="opacity: 0;"></div>
+
+
+<div>
+  <label for="country-dropdown">Select Country:</label>
+  <select id="country-dropdown"></select>
+</div>
+
+<div id="chart-container">
+  <svg id="total-cases-chart"></svg>
+  <div id="tooltip1" class="tooltip">
+  <div>Date: <span id="date"></span></div>
+  <div>Cases: <span id="cases"></span></div>
+</div>
+  <svg id="total-deaths-chart"></svg>
+</div>
+
+
+
+<button id="reset-button">Reset Brush</button>
+  <script>
+        // Load CSV data
+      // Create an empty dictionary to store total confirmed cases per country
+            const totalConfirmedCases = {};
+            const totalRecovered = {};
+            const totalDeaths = {};
+            var prevCases = 0;
+            var prevRecovered = 0;
+            var prevDeaths = 0;
+        d3.csv("covid-data_1.csv").then(function (data) {
+
+            // Process the data
+            data.forEach(function (d) {
+                const country = d['Country'];
+                const confirmedCases = +d.Confirmed;
+                const recoveries = +d.Recovered;
+                const deaths = +d.Deaths;
+
+                d.activeCases = d.Confirmed - prevCases;
+                prevCases = d.Confirmed; 
+                d.activeCases = d.Recovered - prevRecovered;
+                prevRecovered = d.Recovered; 
+                d.activeCases = d.Deaths - prevDeaths;
+                prevDeaths = d.Deaths; 
+
+                if(d.Date == "2020-10-17"){
+                      console.log(d.Date);
+                    // If no, create a new entry in the dictionary
+                    totalConfirmedCases[country] = d.Confirmed;
+                    // If no, create a new entry in the dictionary
+                    totalRecovered[country] = d.Recovered;
+                    // If no, create a new entry in the dictionary
+                    totalDeaths[country] = d.Deaths;
+                }
+            });
+            console.log(totalConfirmedCases);
+        })
+/*totalConfirmedCases = {
+  'Afghanistan': 5083859,
+  'Albania': 1054924,
+  'Algeria': 4839807,
+  'Andorra': 220201,
+  'Angola': 302098,
+  'Antigua and Barbuda': 12477,
+  'Argentina': 46731383,
+  'Armenia': 5369314,
+  'Australia': 3001534,
+  'Austria': 4822661,
+  'Azerbaijan': 4191963,
+  'Bahamas': 231379,
+  'Bahrain': 6490546,
+  'Bangladesh': 34877646,
+  'Barbados': 24755,
+  'Belarus': 10507832,
+  'Belgium': 14564599,
+  'Belize': 102869,
+  'Benin': 243444,
+  'Bhutan': 22421,
+  'Bolivia': 11721434,
+  'Bosnia and Herzegovina': 2168962,
+  'Botswana': 188686,
+  'Brazil': 420424139,
+  'Brunei': 29989,
+  'Bulgaria': 1862390,
+  'Burkina Faso': 228705,
+  'Burma': 607491,
+  'Burundi': 48810,
+  'Cabo Verde': 456118,
+  'Cambodia': 39205,
+  'Cameroon': 2449761,
+  'Canada': 21037606,
+  'Central African Republic': 587052,
+  'Chad': 152775,
+  'Chile': 51550811,
+  'China': 21494534,
+  'Colombia': 59585580,
+  'Comoros': 52132,
+  'Congo (Brazzaville)': 464140,
+  'Congo (Kinshasa)': 1258310,
+  'Costa Rica': 4536975,
+  "Cote d'Ivoire": 2115542,
+  'Croatia': 1288547,
+  'Cuba': 575314,
+  'Cyprus': 234536,
+  'Czechia': 5040711,
+  'Denmark': 3058153,
+  'Diamond Princess': 174444,
+  'Djibouti': 776397,
+  'Dominica': 3964,
+  'Dominican Republic': 10529044,
+  'Ecuador': 14283835,
+  'Egypt': 12319782,
+  'El Salvador': 2538703,
+  'Equatorial Guinea': 554065,
+  'Eritrea': 39644,
+  'Estonia': 441367,
+  'Eswatini': 438484,
+  'Ethiopia': 4789367,
+  'Fiji': 4718,
+  'Finland': 1446144,
+  'France': 55993147,
+  'Gabon': 1022554,
+  'Gambia': 226342,
+  'Georgia': 408640,
+  'Germany': 42439475,
+  'Ghana': 4849359,
+  'Greece': 1396157,
+  'Grenada': 4440,
+  'Guatemala': 7544120,
+  'Guinea': 1184111,
+  'Guinea-Bissau': 304953,
+  'Guyana': 163244,
+  'Haiti': 1012517,
+  'Holy See': 2404,
+  'Honduras': 6455355,
+  'Hungary': 1624898,
+  'Iceland': 417059,
+  'India': 400134578,
+  'Indonesia': 21208541,
+  'Iran': 51903323,
+  'Iraq': 24854191,
+  'Ireland': 5188540,
+  'Israel': 15859573,
+  'Italy': 50339469,
+  'Jamaica': 362421,
+  'Japan': 7589101,
+  'Jordan': 679160,
+  'Kazakhstan': 10986295,
+  'Kenya': 3233020,
+  'Republic of Korea': 3300922,
+  'Kosovo': 1326921,
+  'Kuwait': 10506274,
+  'Kyrgyzstan': 4195677,
+  'Laos': 4036,
+  'Latvia': 252453,
+  'Lebanon': 2161006,
+  'Lesotho': 106664,
+  'Liberia': 158480,
+  'Libya': 1775094,
+  'Liechtenstein': 19519,
+  'Lithuania': 480043,
+  'Luxembourg': 1138844,
+  'MS Zaandam': 1808,
+  'Madagascar': 1426915,
+  'Malawi': 529465,
+  'Malaysia': 1754191,
+  'Maldives': 833107,
+  'Mali': 387385,
+  'Malta': 249258,
+  'Mauritania': 799862,
+  'Mauritius': 69230,
+  'Mexico': 66665740,
+  'Moldova': 4565830,
+  'Monaco': 26247,
+  'Mongolia': 42083,
+  'Montenegro': 662411,
+  'Morocco': 7679260,
+  'Mozambique': 499778,
+  'Namibia': 669055,
+  'Nepal': 5114087,
+  'Netherlands': 13082704,
+  'New Zealand': 318763,
+  'Nicaragua': 517446,
+  'Niger': 198788,
+  'Nigeria': 6046038,
+  'North Macedonia': 1705360,
+  'Norway': 1988485,
+  'Oman': 9949883,
+  'Pakistan': 37402966,
+  'Panama': 10242429,
+  'Papua New Guinea': 35357,
+  'Paraguay': 2210617,
+  'Peru': 73605564,
+  'Philippines': 22061292,
+  'Poland': 9065798,
+  'Portugal': 9165993,
+  'Qatar': 16222435,
+  'Romania': 10494460,
+  'Russia': 131125737,
+  'Rwanda': 383817,
+  'Saint Kitts and Nevis': 3220,
+  'Saint Lucia': 4413,
+  'Saint Vincent and the Grenadines': 7746,
+  'San Marino': 133834,
+  'Sao Tome and Principe': 120605,
+  'Saudi Arabia': 38243140,
+  'Senegal': 1571322,
+  'Serbia': 3947560,
+  'Seychelles': 15105,
+  'Sierra Leone': 266053,
+  'Singapore': 8133847,
+  'Slovakia': 768759,
+  'Slovenia': 532493,
+  'Solomon Islands': 15,
+  'Somalia': 487084,
+  'South Africa': 62324572,
+  'South Sudan': 330069,
+  'Spain': 72565302,
+  'Sri Lanka': 440711,
+  'Sudan': 1653332,
+  'Suriname': 353478,
+  'Sweden': 12086079,
+  'Switzerland': 7509713,
+  'Syria': 263285,
+  'Taiwan*': 96376,
+  'Tajikistan': 1109089,
+  'Tanzania': 91065,
+  'Thailand': 650520,
+  'Timor-Leste': 4664,
+  'Togo': 167843,
+  'Trinidad and Tobago': 220215,
+  'Tunisia': 956339,
+  'Turkey': 41083524,
+  'United States of America': 738110558,
+  'Uganda': 438781,
+  'Ukraine': 15850979,
+  'United Arab Emirates': 10132550,
+  'United Kingdom': 59314995,
+  'Uruguay': 237777,
+  'Uzbekistan': 4330804,
+  'Venezuela': 4763980,
+  'Vietnam': 121452,
+  'West Bank and Gaza': 2504896,
+  'Western Sahara': 1721,
+  'Yemen': 226809,
+  'Zambia': 1113535,
+  'Zimbabwe': 585190
+}
+*/
+var x = [];
+
+
+        // Load world map data
+        d3.json("custom.geo.json").then(function (world) {
+            // Assume totalConfirmedCases is the dictionary you provided
+            // Process the data and create the map
+            createMap(world, totalConfirmedCases);
+        });
+
+        function createMap(world, data) {
+            // Set up the dimensions of the map
+            const width = 960;
+            const height = 500;
+            var x =[]
+            // Create an SVG container
+            const svg = d3.select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Create a projection and path generator
+            const projection = d3.geoMercator().fitSize([width, height], world);
+            const path = d3.geoPath().projection(projection);
+const colorRanges = [
+   '#ffe5e5', '#ffcccc', '#ffb3b3', '#ff9999', '#ff8080', // Light red for low to mid values
+  '#ff6666', '#ff4d4d', '#ff3333', '#ff1a1a', '#ff0000', // Darker red for low to mid values
+  '#e50000', '#cc0000', '#b30000', '#990000', '#800000', // Light red for mid to high values
+  '#660000', '#4d0000', '#330000', '#1a0000', '#000000'  // Da
+];
+
+// Create a quantize scale with custom color ranges
+const customColorScale = d3.scaleQuantize()
+  .domain([0, d3.max(Object.values(data))])
+  .range(colorRanges);
+
+   const colorScale = d3.scaleSequential(d3.interpolateOranges)
+    .domain([0, d3.max(Object.values(data))]);
+  
+            // Bind data to the map and set the fill color
+            svg.append("g")
+                .selectAll("path")
+                .data(world.features)
+                .enter().append("path")
+                .attr("d", path)
+                .attr("fill", function (d) {
+                     const countryName = d.properties.name;
+                  return colorScale(totalConfirmedCases[countryName] || 0);
+                })
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 0.5)
+                .append("title")  // Add a title element for the tooltip
+                .text(function (d) {
+
+                    const countryName = d.properties.name;
+                    return `Country: ${countryName}, Confirmed Cases: ${totalConfirmedCases[countryName] || 0}`;
+                });
+          
+        }
+    </script> 
+
+
+
+  <script type="text/javascript">
+
+  // Load data from CSV file
+
+    var prevCases = 0;
+            var prevRecovered = 0;
+            var prevDeaths = 0;
+  d3.csv("covid-data_1.csv").then(function(data) {
+    // Convert numeric values and dates
+    data.forEach(d => {
+      d.cases = +d.Confirmed;
+      d.deaths = +d.Deaths;
+      d.date = new Date(d.Date);
+      d.country = d['Province'] ? "["+d.Country+"] "+d['Province'] : d.Country;
+      d.state = d['Province'] ? d.Province : "";
+      d.dailyCases = d.Confirmed - prevCases;
+                prevCases = d.Confirmed; 
+                d.dailyRecovered = d.Recovered - prevRecovered;
+                prevRecovered = d.Recovered; 
+                d.dailyDeaths = d.Deaths - prevDeaths;
+                prevDeaths = d.Deaths; 
+
+    });
+    // Create dropdown options
+    const countries = Array.from(new Set(data.map(d => d['Province'] ? "["+d.Country+"] "+d['Province'] : d.Country)));
+
+    const dropdown = d3.select("#country-dropdown");
+    dropdown
+      .selectAll("option")
+      .data(countries)
+      .enter()
+      .append("option")
+      .text(d => d)
+      .attr("value", d => d);
+
+    // Set up SVG dimensions
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+const width = 600 - margin.left - margin.right;
+const height = 300 - margin.top - margin.bottom;
+
+// Set up scales and axes for cases
+const xCases = d3.scaleTime().range([0, width]);
+const yCases = d3.scaleLinear().range([height, 0]);
+
+const xCasesAxis = d3.axisBottom(xCases).tickFormat(d3.timeFormat("%m-%y"));
+const yCasesAxis = d3.axisLeft(yCases);
+
+// Set up scales and axes for deaths
+const xDeaths = d3.scaleTime().range([0, width]);
+const yDeaths = d3.scaleLinear().range([height, 0]);
+
+const xDeathsAxis = d3.axisBottom(xDeaths).tickFormat(d3.timeFormat("%m-%y"));
+const yDeathsAxis = d3.axisLeft(yDeaths);
+
+// Append the SVG element for cases
+const svgCases = d3.select("#total-cases-chart")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Append the SVG element for deaths
+const svgDeaths = d3.select("#total-deaths-chart")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Assuming data is your dataset
+const dateExtentCases = d3.extent(data.map(d => new Date(d.Date)));
+const dateExtentDeaths = d3.extent(data.map(d => new Date(d.Date)));
+
+// Set domain for cases
+xCases.domain(dateExtentCases);
+yCases.domain([0, d3.max(data, d => d.dailyCases)]);
+
+// Set domain for deaths
+xDeaths.domain(dateExtentDeaths);
+yDeaths.domain([0, d3.max(data, d => d.dailyDeaths)]);
+
+// Append the x-axis for cases to your chart
+svgCases.append("g")
+  .attr("class", "x-axis-cases")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xCasesAxis);
+
+// Append the x-axis for deaths to your chart
+svgDeaths.append("g")
+  .attr("class", "x-axis-deaths")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xDeathsAxis);
+
+// ... Rest of your code ...
+
+// Initialize render for cases
+updateGraph(countries[0], svgCases, xCases, yCases, xCasesAxis, yCasesAxis, 'cases');
+
+// Initialize render for deaths
+updateGraph(countries[0], svgDeaths, xDeaths, yDeaths, xDeathsAxis, yDeathsAxis, 'deaths');
+
+
+    // Update graph based on selected country and brushed date range
+    function updateGraph(selectedCountry, svg, x, y, xAxis, yAxis, type, filteredByDate) {
+      var filteredData = "";
+      // Filter data for the selected country
+      if(selectedCountry[0] == '['){
+        state = selectedCountry.split('] ')[1];
+        var filteredData = filteredByDate ? data.filter(d => filteredByDate.some(dateObj => dateObj.date.getTime() === d.date.getTime() && dateObj.country === d.country && dateObj.state === state)) : data.filter(d => d.country === selectedCountry && d.state === state);
+        console.log(state);
+        
+      }
+      else{
+        var filteredData = filteredByDate ? data.filter(d => filteredByDate.some(dateObj => dateObj.date.getTime() === d.date.getTime() && dateObj.country === d.country)) : data.filter(d => d.country === selectedCountry);
+      }
+      // const filteredData = data.filter(d => d.country === selectedCountry);
+
+      // Get unique dates for the selected country
+      const uniqueDates = Array.from(new Set(filteredData.map(d => d.date.getTime())));
+
+
+      
+      x.domain([d3.min(uniqueDates), d3.max(uniqueDates)]);
+      y.domain([0, d3.max(filteredData, d => (type === 'cases' ? d.dailyCases : d.dailyDeaths))]);
+
+      // Add the line
+      const line = d3.line()
+        .x(d => x(d.date))
+        .y(d => y(type === 'cases' ? d.dailyCases : d.dailyDeaths));
+
+      const cursorLine = svg.select(".cursor-line");
+
+      svg.selectAll("*").remove();
+
+      svg.append("path")
+        .datum(filteredData)
+        .attr("fill", "none")
+        .attr("stroke", type === 'cases' ? "steelblue" : "red")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 2)
+        .attr("d", line);
+
+         const cursorLineCases = svgCases.append("line")
+          .attr("class", "cursor-line")
+          .attr("stroke", "black")
+          .attr("stroke-width", 1)
+          .attr("y1", 0)
+          .attr("y2", height)
+          .style("display", "none");
+
+
+         const cursorLineCases1 = svgDeaths.append("line")
+          .attr("class", "cursor-line")
+          .attr("stroke", "black")
+          .attr("stroke-width", 1)
+          .attr("y1", 0)
+          .attr("y2", height)
+          .style("display", "none");
+
+          const tooltip1 = d3.select("#tooltip1");
+
+
+
+svgCases.on("mouseover", function () {
+  cursorLineCases.style("display", null);
+  tooltip1.style("display", "block");
+}).on("mouseout", function () {
+  cursorLineCases.style("display", "none");
+  tooltip1.style("display", "none");
+}).on("mousemove", function () {
+  const [mouseX, mouseY] = d3.mouse(this);
+  //const [mouseX1, mouseY1] = d3.mouse();
+  const dateValue = x.invert(mouseX);
+  const closestDataPoint = findClosestDataPoint(dateValue, filteredData);
+
+const formatDate = d3.timeFormat("%Y-%m-%d");
+  // Update tooltip content
+  tooltip1.select("#date").text(formatDate(closestDataPoint.date));
+  tooltip1.select("#cases").text(`Cases: ${closestDataPoint.cases}`);
+  const svgCasesPosition = d3.select("#total-cases-chart").node().getBoundingClientRect();
+
+  // Position tooltip
+  tooltip1.style("left", (mouseX + 80) + "px")
+          .style("top", (mouseY + svgCasesPosition.top) + "px");
+  // Move cursor line
+  cursorLineCases.attr("transform", "translate(" + (mouseX-2) + ", 0)");
+
+  // Update tooltip content based on the closest data point
+  tooltip1.select("#date").text(formatDate(closestDataPoint.date));
+  tooltip1.select("#cases").text(`${closestDataPoint.cases}`);
+});
+
+svgDeaths.on("mouseover", function () {
+  cursorLineCases1.style("display", null);
+  tooltip1.style("display", "block");
+}).on("mouseout", function () {
+  cursorLineCases1.style("display", "none");
+  tooltip1.style("display", "none");
+}).on("mousemove", function () {
+  const [mouseX, mouseY] = d3.mouse(this);
+  const dateValue = x.invert(mouseX);
+  const closestDataPoint = findClosestDataPoint(dateValue, filteredData);
+  const svgCasesPosition1 = d3.select("#total-deaths-chart").node().getBoundingClientRect();
+
+const formatDate = d3.timeFormat("%Y-%m-%d");
+  // Update tooltip content
+  tooltip1.select("#date").text(formatDate(closestDataPoint.date));
+  tooltip1.select("#cases").text(`Deaths: ${closestDataPoint.Deaths}`);
+
+  // Position tooltip
+  tooltip1.style("left", (mouseX + svgCasesPosition1.left + 80) + "px")
+          .style("top", (mouseY + svgCasesPosition1.top) + "px");
+  // Move cursor line
+  cursorLineCases1.attr("transform", "translate(" + (mouseX-2) + ", 0)");
+
+  // Update tooltip content based on the closest data point
+  tooltip1.select("#date").text(formatDate(closestDataPoint.date));
+  tooltip1.select("#cases").text(`${closestDataPoint.Deaths}`);
+});
+
+
+      // Add the X Axis
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+      // Add the Y Axis
+      svg.append("g")
+        .call(yAxis);
+
+      const brush = d3.brushX()
+  .extent([[0, 0], [width, height]])
+  .on("end", brushed);
+
+svg.append("g")
+  .attr("class", "brush")
+  .call(brush);
+
+  const resetButton = d3.select("#reset-button");
+
+  // Define a function to reset the brush
+  function resetBrush() {
+    // Remove the brush selection
+    svgCases.select(".brush").call(brush.move, null);
+    svgDeaths.select(".brush").call(brush.move, null);
+
+    // Select the default country in the dropdown
+    dropdown.property("value", countries[0]);
+
+    // Update both charts with the default country
+    updateGraph(countries[0], svgCases, xCases, yCases, xCasesAxis, yCasesAxis, 'cases');
+    updateGraph(countries[0], svgDeaths, xDeaths, yDeaths, xDeathsAxis, yDeathsAxis, 'deaths');
+  }
+
+  // Listen for reset button click
+  resetButton.on("click", resetBrush);
+
+function brushed() {
+  const selection = d3.event.selection;
+  if (!selection) return; // Ignore empty selections.
+
+  const [x0, x1] = selection.map(x.invert);
+  const filteredByDate = filteredData.filter(d => d.date >= x0 && d.date <= x1);
+
+  // Update both charts
+  updateGraph(selectedCountry, svgCases, xCases, yCases, xCasesAxis, yCasesAxis, 'cases', filteredByDate);
+  updateGraph(selectedCountry, svgDeaths, xDeaths, yDeaths, xDeathsAxis, yDeathsAxis, 'deaths', filteredByDate);
+}
+
+
+
+function findClosestDataPoint(date, data) {
+  const bisectDate = d3.bisector(d => d.date).left;
+  const index = bisectDate(data, date, 1);
+  const d0 = data[index - 1];
+  const d1 = data[index];
+  return date - d0.date > d1.date - date ? d1 : d0;
+}
+    }
+
+ 
+
+    // Listen for dropdown changes
+    dropdown.on("change", function () {
+      updateGraph(this.value, svgCases, xCases, yCases, xCasesAxis, yCasesAxis, 'cases');
+      updateGraph(this.value, svgDeaths, xDeaths, yDeaths, xDeathsAxis, yDeathsAxis, 'deaths');
+    });
+  });
+</script>
+</body>
+</html>
